@@ -11,6 +11,8 @@ import { GoContainer } from "react-icons/go";
 import { BsMinecartLoaded } from "react-icons/bs";
 import { BsTrainFreightFrontFill } from "react-icons/bs";
 import { IoIosCloseCircle } from "react-icons/io";
+import logo from "../assets/log.png";
+import icon from "../assets/icon.png";
 
 const items = [
   {
@@ -88,7 +90,7 @@ const Sidebar = () => {
         className="sider"
       >
         <img
-          src="./src/assets/logo.png"
+          src={logo}
           style={{
             width: "100%",
             padding: "15px",
@@ -132,7 +134,7 @@ const Sidebar = () => {
             }}
           >
             <Image
-              src="./src/assets/fak.png"
+              src={icon}
               style={{
                 width: "45px",
               }}
