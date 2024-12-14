@@ -77,6 +77,9 @@ const App = () => {
 
   return (
     <Card title="Stansiya turini aniqlash">
+      <p>
+        <b>Mavjud stansiya raqamlari:</b>
+      </p>
       {stations.map((e) => (
         <Button
           key={e.id}
@@ -85,7 +88,7 @@ const App = () => {
             margin: "5px",
           }}
         >
-          {e.code.slice(0, 4)}
+          {e.code.slice(0, 5)}
         </Button>
       ))}
       <Form layout="vertical" onFinish={onFinish} form={form}>
@@ -100,7 +103,6 @@ const App = () => {
                 style={{ width: "100%" }}
                 maxLength={5}
                 minLength={5}
-                defaultValue={"73720"}
               />
             </Form.Item>
           </Col>
@@ -117,17 +119,27 @@ const App = () => {
           </Col>
         </Row>
       </Form>
-      <div
-        style={{
-          padding: "10px",
-          fontSize: "18px",
-        }}
-      >
-        <div>Stantsiya nomi: {data?.name}</div>
-        <div>Stantsiya kod: {data?.code}</div>
-        <div>Stantsiya klassi: {data?.class}</div>
-        <div>Stantsiya turi: {data?.type} stansiyasi</div>
-      </div>
+      {data && (
+        <div
+          style={{
+            marginBottom: "10px",
+            fontSize: "16px",
+          }}
+        >
+          <p>
+            <b>Stantsiya nomi:</b> {data?.name}
+          </p>
+          <p>
+            <b>Stantsiya kod:</b> {data?.code}
+          </p>
+          <p>
+            <b>Stantsiya klassi:</b> {data?.class}
+          </p>
+          <p>
+            <b>Stantsiya turi:</b> {data?.type} stansiyasi
+          </p>
+        </div>
+      )}
       <div style={{ height: "400px", position: "relative", zIndex: 0 }}>
         <MapContainer
           center={[data?.lat, data?.lng]}
