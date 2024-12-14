@@ -1,166 +1,151 @@
-import { Button, Card, Col, Input, Row, Select } from "antd";
 import React, { useState } from "react";
-import { RiAiGenerate } from "react-icons/ri";
-import { vagonNazoratBelgisi } from "../hooks/useVagonNazoratBelgisi";
-import { stansiyaNazoratBelgisi } from "../hooks/useStansiyaNazoratBelgisi";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Row,
+} from "antd";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import { stations } from "../mock/stations";
 
-const vagonRaqamlari = [
-  { value: 1, label: 2412437 },
-  { value: 2, label: 1234567 },
-  { value: 3, label: 9876543 },
-  { value: 4, label: 3456789 },
-  { value: 5, label: 5678901 },
-  { value: 6, label: 2233445 },
-  { value: 7, label: 5566778 },
-  { value: 8, label: 1122334 },
-  { value: 9, label: 4455667 },
-  { value: 10, label: 6789012 },
-];
+const MapViewChanger = ({ center }) => {
+  const map = useMap();
+  React.useEffect(() => {
+    map.flyTo(center, 13, {
+      animate: true,
+      duration: 1.5,
+    });
+  }, [center, map]);
 
-const stansiyaKodlari = [
-  { value: 1, label: 72000 },
-  { value: 2, label: "" },
-  { value: 3, label:""  },
-  { value: 4, label: "" },
-  { value: 5, label: "" },
-];
+  return null;
+};
 
-const Lab1 = () => {
-  const [type, setType] = useState("1");
-  const [code, setCode] = useState(1);
-  const [result, setResult] = useState(null);
+const App = () => {
+  const [form] = Form.useForm();
+  const [data, setData] = useState({
+    id: 1,
+    name: "Kungrad",
+    code: "737209",
+    type: "Uchastka",
+    class: "Birinchi",
+    lat: 43.040748,
+    lng: 58.841385,
+  });
 
-  const generate = () => {
-    if (type === "1") {
-      const res = vagonNazoratBelgisi(
-        vagonRaqamlari.find((i) => i.value === code).label
-      );
-      setResult(res);
-    } else {
-      const res = stansiyaNazoratBelgisi(2442137);
+  const onFinish = (e) => {
+    const code = e.number;
+    let summCode = 0;
 
-      setResult(res);
+    for (let i = 0; i < code.length; i++) {
+      const a = parseInt(code[i], 10) * (i + 1);
+      summCode += a;
     }
+
+    let res = summCode % 11;
+
+    if (res === 10) {
+      summCode = 0;
+
+      for (let i = 0; i < code.length; i++) {
+        const a = parseInt(code[i], 10) * (i + 3);
+        summCode += a;
+      }
+
+      res = summCode % 11;
+
+      if (res === 10) {
+        res = 0;
+      }
+    }
+
+    const fullCode = code + res.toString();
+
+    const station = stations.find((x) => x?.code === fullCode);
+
+    if (!station) {
+      message.error("Bu stansiya bazada mavjud emas!");
+      return;
+    }
+
+    setData(station);
   };
 
   return (
-    <div>
-      <Card title="Vagon va Stansiy nazorat belgilarini aniqlash">
-        <Row gutter={16}>
-          <Col span={4}>
-            <Select
-              size="large"
-              options={[
-                { value: "1", label: "Vagon" },
-                { value: "2", label: "Stansiya" },
-              ]}
-              value={type}
-              onChange={(value) => setType(value)}
-              style={{ width: "100%" }}
-            />
-          </Col>
-          <Col span={4}>
-            <Select
-              size="large"
-              //   placeholder={`${type === "1" ? "Vagon" : "Stansiya"} kodi`}
-              options={type === "1" ? vagonRaqamlari : stansiyaKodlari}
-              value={code}
-              onChange={(e) => setCode(e)}
-              style={{ width: "100%" }}
-            />
-          </Col>
-          <Col span={4}>
-            <Button
-              onClick={generate}
-              style={{ width: "100%" }}
-              size="large"
-              type="primary"
+    <Card title="Stansiya turini aniqlash">
+      {stations.map((e) => (
+        <Button
+          key={e.id}
+          onClick={() => form.setFieldsValue({ number: e.code.slice(0, 5) })}
+          style={{
+            margin: "5px",
+          }}
+        >
+          {e.code.slice(0, 4)}
+        </Button>
+      ))}
+      <Form layout="vertical" onFinish={onFinish} form={form}>
+        <Row gutter={[5, 5]}>
+          <Col xs={24} md={20}>
+            <Form.Item
+              name="number"
+              rules={[{ required: true, message: "Stansiya raqami" }]}
             >
-              <RiAiGenerate size={20} /> Submit
-            </Button>
+              <InputNumber
+                placeholder="Stansiya raqami"
+                style={{ width: "100%" }}
+                maxLength={5}
+                minLength={5}
+                defaultValue={"73720"}
+              />
+            </Form.Item>
           </Col>
-          <Col span={4}>
-            <Input
-              size="large"
-              value={`${result}`}
-              style={{ width: "100%" }}
-              disabled
-            />
+          <Col xs={24} md={4}>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ width: "100%" }}
+              >
+                Qidirish
+              </Button>
+            </Form.Item>
           </Col>
         </Row>
-      </Card>
-    </div>
+      </Form>
+      <div
+        style={{
+          padding: "10px",
+          fontSize: "18px",
+        }}
+      >
+        <div>Stantsiya nomi: {data?.name}</div>
+        <div>Stantsiya kod: {data?.code}</div>
+        <div>Stantsiya klassi: {data?.class}</div>
+        <div>Stantsiya turi: {data?.type} stansiyasi</div>
+      </div>
+      <div style={{ height: "400px", position: "relative", zIndex: 0 }}>
+        <MapContainer
+          center={[data?.lat, data?.lng]}
+          zoom={13}
+          style={{ height: "100%", width: "100%" }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <MapViewChanger center={[data?.lat, data?.lng]} />
+          <Marker position={[data?.lat, data?.lng]}>
+            <Popup>{data?.name}</Popup>
+          </Marker>
+        </MapContainer>
+      </div>
+    </Card>
   );
 };
 
-export default Lab1;
-
-// class Station:
-//     def __init__(self, number, name):
-//         self.number = number
-//         self.name = name
-
-// def stansiya_qidirish(stations, search_number):
-//     for station in stations:
-//         if station.number == search_number:
-//             return station
-//     return None
-
-// def main():
-//     while True:
-//         stations = [
-//             Station(722805, "Akcha"),
-//             Station(722608, "Angren"),
-//             Station(723009, "Ohangaron"),
-//             Station(721802, "Barraj")
-//         ]
-
-//         input_number = int(input("Stansiya kodini kiriting: "))
-
-//         use_input_number = input_number
-//         i = 5
-//         sum = 0
-
-//         while use_input_number != 0:
-//             cur_num = use_input_number % 10
-//             sum += cur_num * i
-//             i -= 1
-//             use_input_number //= 10
-
-//         print(f"Dastlabki hisoblangan yig'indi: {sum}")
-
-//         sixth_num = sum % 11
-//         print(f"Dastlabki tanlab olingan 6-raqam: {sixth_num}")
-
-//         if sixth_num == 10:
-//             print("Dastlabki olingan 6-raqam 10 bo'lganligi sababli boshqattan tanlaymiz:")
-
-//             i = 5
-//             sum = 0
-//             use_input_number = input_number
-
-//             while use_input_number != 0:
-//                 cur_num = use_input_number % 10
-//                 sum += cur_num * (i + 2)
-//                 i -= 1
-//                 use_input_number //= 10
-
-//             print(f"Keyingi shart asosida hisoblangan yig'indi: {sum}")
-
-//             sixth_num = sum % 11
-//             print(f"Keyingi tanlab olingan 6-raqam: {sixth_num}")
-
-//         found_number = input_number * 10 + sixth_num
-//         print(f"Topilgan stansiya raqami: {found_number}")
-
-//         found_station = stansiya_qidirish(stations, found_number)
-
-//         if found_station:
-//             print(f"Stansiya topildi, nomi: {found_station.name}")
-//         else:
-//             print(f"Ushbu {found_number} raqam uchun stansiya bazada mavjud emas")
-
-//         print()
-
-// if __name__ == "__main__":
-//     main()
+export default App;

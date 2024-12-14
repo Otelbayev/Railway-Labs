@@ -1,12 +1,8 @@
-import { Spin } from "antd";
+import { Card } from "antd";
 import React from "react";
 
 const Lab2 = () => {
-  return (
-    <div>
-      coming soon... <Spin />
-    </div>
-  );
+  return <Card title="Vagon nazorat raqamini aniqlash"></Card>;
 };
 
 export default Lab2;

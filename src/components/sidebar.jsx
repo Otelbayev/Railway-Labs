@@ -4,31 +4,44 @@ import { NavLink, Outlet } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 const { Header, Content, Footer } = Layout;
-import { ImLab } from "react-icons/im";
-import { SiBandlab } from "react-icons/si";
-import { PiJarLabelFill } from "react-icons/pi";
 import { FaHome } from "react-icons/fa";
+import { GiMineWagon } from "react-icons/gi";
+import { BsTrainLightrailFrontFill } from "react-icons/bs";
+import { GoContainer } from "react-icons/go";
+import { BsMinecartLoaded } from "react-icons/bs";
+import { BsTrainFreightFrontFill } from "react-icons/bs";
+import { IoIosCloseCircle } from "react-icons/io";
 
 const items = [
   {
-    key: "/home",
+    key: "/",
     icon: <FaHome size={20} />,
-    label: <NavLink to="/home">Home</NavLink>,
+    label: <NavLink to="/">Home</NavLink>,
   },
   {
     key: "/lab1",
-    icon: <ImLab size={20} />,
-    label: <NavLink to="/lab1">Lab1</NavLink>,
+    icon: <BsTrainLightrailFrontFill size={20} />,
+    label: <NavLink to="/lab1">Station</NavLink>,
   },
   {
     key: "/lab2",
-    icon: <SiBandlab size={20} />,
-    label: <NavLink to="/lab2">Lab2</NavLink>,
+    icon: <GiMineWagon size={20} />,
+    label: <NavLink to="/lab2">Wagon</NavLink>,
   },
   {
     key: "/lab3",
-    icon: <PiJarLabelFill size={20} />,
-    label: <NavLink to="/lab3">Lab3</NavLink>,
+    icon: <GoContainer size={20} />,
+    label: <NavLink to="/lab3">Container</NavLink>,
+  },
+  {
+    key: "/lab4",
+    icon: <BsMinecartLoaded size={20} />,
+    label: <NavLink to="/lab4">Load code</NavLink>,
+  },
+  {
+    key: "/lab5",
+    icon: <BsTrainFreightFrontFill size={20} />,
+    label: <NavLink to="/lab5">Station class</NavLink>,
   },
 ];
 
@@ -46,6 +59,7 @@ const Sidebar = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
   return (
     <Layout
       style={{
@@ -54,6 +68,13 @@ const Sidebar = () => {
     >
       {!collapsed && (
         <div className="abs-bg" onClick={() => setCollapsed(true)}></div>
+      )}
+      {!collapsed && window.innerWidth <= 768 && (
+        <Button
+          onClick={() => setCollapsed(true)}
+          className="close-btn"
+          icon={<IoIosCloseCircle size={20} />}
+        />
       )}
       <Sider
         style={{
@@ -70,7 +91,8 @@ const Sidebar = () => {
           src="./src/assets/logo.png"
           style={{
             width: "100%",
-            padding: "10px",
+            padding: "15px",
+            borderBottom: "1px solid lightgrey",
           }}
         />
         <Menu
@@ -99,8 +121,8 @@ const Sidebar = () => {
             onClick={() => setCollapsed(!collapsed)}
             style={{
               fontSize: "16px",
-              width: 64,
-              height: 64,
+              width: 50,
+              height: 50,
             }}
           />
           ©{new Date().getFullYear()}(chopish taqiqlanadi)
