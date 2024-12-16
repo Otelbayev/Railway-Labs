@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Row,
-} from "antd";
+import { Button, Card, Col, Form, InputNumber, message, Row } from "antd";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { stations } from "../mock/stations";
+import L from "leaflet";
+import icon from "../assets/train.png";
+
+const customIcon = new L.Icon({
+  iconUrl: icon, // Replace with your local icon path
+  iconSize: [80, 100], // Set the size of the icon
+  iconAnchor: [40, 100], // Position the anchor point of the icon
+  popupAnchor: [0, -30], // Adjust the popup position
+});
 
 const MapViewChanger = ({ center }) => {
   const map = useMap();
@@ -151,7 +151,7 @@ const App = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           <MapViewChanger center={[data?.lat, data?.lng]} />
-          <Marker position={[data?.lat, data?.lng]}>
+          <Marker position={[data?.lat, data?.lng]} icon={customIcon}>
             <Popup>{data?.name}</Popup>
           </Marker>
         </MapContainer>
