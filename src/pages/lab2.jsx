@@ -100,6 +100,7 @@ const VAGON_TURI_LIST = [
 
 const arr = [
   2349857, 2439875, 2459874, 2459823, 2323948, 2349857, 2435096, 2430559,
+  2581238,
 ];
 
 const Lab2 = () => {
@@ -137,31 +138,30 @@ const Lab2 = () => {
         vagon.uchinchiUstun.includes(uchinchiUstun)
     );
 
-    if (result) {
-      result.vagonOtuvchiYolBorligi =
-        otishYoli === 0 ? "O'tish yo'li yo'q" : "O'tish yo'li bor";
-      result.vagonTuri =
-        VAGON_TURI_LIST.find((item) => item.id === birinchiUstun)?.type ||
-        "Unknown";
-      result.vagonKodi = fullCode;
-      result.nazoratRaqami = controlNumber;
+    if (otishYoli === 0) {
+      result.vagonOtuvchiYolBorligi = "O'tish yo'li yo'q";
+    } else {
+      result.vagonOtuvchiYolBorligi = "O'tish yo'li bor";
     }
+    result.vagonTuri =
+      VAGON_TURI_LIST.find((item) => item.id === birinchiUstun)?.type ||
+      "Unknown";
+    result.vagonKodi = fullCode;
+    result.nazoratRaqami = controlNumber;
 
-    return result;
+    setModel(result);
   };
 
   const onFinish = () => {
-    const vagonModel = getVagon(vagonKodi);
-    if (vagonModel) {
-      setModel(vagonModel);
-      setErrorMessage("");
-    } else {
-      setModel(null);
-      setErrorMessage("Vagon ma'lumoti topilmadi");
-    }
+    getVagon(vagonKodi);
+    // if (vagonModel) {
+    //   setModel(vagonModel);
+    //   setErrorMessage("");
+    // } else {
+    //   setModel(null);
+    //   setErrorMessage("Vagon ma'lumoti topilmadi");
+    // }
   };
-
-  console.log(vagonKodi);
 
   return (
     <Card title="Vagon nazorat raqamini aniqlash">

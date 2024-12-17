@@ -38,12 +38,12 @@ const StationCalculator = () => {
       borderConnection,
     } = formData;
 
-    const commonRailsPoints = Math.floor(commonRails / 5) * 2;
-    const unusedRailsPoints = Math.floor(unusedRails / 50) * 2;
-    const smallFreightPoints = Math.floor(smallFreight / 5) * 2;
-    const transitWagonsPoints = Math.floor(transitWagons / 50) * 2;
-    const locomotivePoints = Math.floor(locomotiveChange / 10);
-    const replacedLocomotivePoints = (replacedLocomotives / 100) * 0.05;
+    const commonRailsPoints = (commonRails / 5) * 2;
+    const unusedRailsPoints = (unusedRails / 50) * 2;
+    const smallFreightPoints = (smallFreight / 5) * 2;
+    const transitWagonsPoints = (transitWagons / 50) * 2;
+    const locomotivePoints = locomotiveChange / 10;
+    const replacedLocomotivePoints = (replacedLocomotives / 100) * 0.5;
     const passengerVehiclesPoints = (passengerVehicles / 5) * 1.0;
     const localTransportPoints = (localTransport / 100) * 1.0;
     const suburbanTransportPoints = (suburbanTransport / 100) * 0.05;
