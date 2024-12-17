@@ -96,13 +96,18 @@ const StationCalculator = () => {
 
   return (
     <Card title="Stansiya sinifini aniqlash">
-      <Form layout="vertical">
+      <Form layout="vertical" onFinish={calculate}>
         <Row gutter={16}>
           <Col span={24} md={8}>
             <Form.Item
               label="Umumiy foydalanishdagi yo'llar (km)"
               name="commonRails"
-              required
+              rules={[
+                {
+                  required: true,
+                  message: "Umumiy foydalanishdagi yo'llar (km)ni kiriting",
+                },
+              ]}
             >
               <Input
                 type="number"
@@ -119,7 +124,13 @@ const StationCalculator = () => {
             <Form.Item
               label="Umumiy foydalanilmayan temiryo'llar (km)"
               name="unusedRails"
-              required
+              rules={[
+                {
+                  required: true,
+                  message:
+                    "Umumiy foydalanilmayan temiryo'llar (km)ni kiriting",
+                },
+              ]}
             >
               <Input
                 type="number"
@@ -133,7 +144,13 @@ const StationCalculator = () => {
           </Col>
 
           <Col span={24} md={8}>
-            <Form.Item label="Kichik yuklar soni" name="smallFreight" required>
+            <Form.Item
+              label="Kichik yuklar soni"
+              name="smallFreight"
+              rules={[
+                { required: true, message: "Kichik yuklar sonini kiriting" },
+              ]}
+            >
               <Input
                 type="number"
                 id="smallFreight"
@@ -149,7 +166,12 @@ const StationCalculator = () => {
             <Form.Item
               label="Tranzit vagonlar soni"
               name="transitWagons"
-              required
+              rules={[
+                {
+                  required: true,
+                  message: "Tranzit vagonlar sonini kiriting",
+                },
+              ]}
             >
               <Input
                 type="number"
@@ -166,7 +188,13 @@ const StationCalculator = () => {
             <Form.Item
               label="Lokomotiv brigadalarining o'zgarishi (soni)"
               name="locomotiveChange"
-              required
+              rules={[
+                {
+                  required: true,
+                  message:
+                    "Lokomotiv brigadalarining o'zgarishi (soni)ni kiriting",
+                },
+              ]}
             >
               <Input
                 type="number"
@@ -183,7 +211,13 @@ const StationCalculator = () => {
             <Form.Item
               label="Almashtirilgan lokomotiv brigadalarining soni"
               name="replacedLocomotives"
-              required
+              rules={[
+                {
+                  required: true,
+                  message:
+                    "Almashtirilgan lokomotiv brigadalarining sonini kiriting",
+                },
+              ]}
             >
               <Input
                 type="number"
@@ -200,7 +234,12 @@ const StationCalculator = () => {
             <Form.Item
               label="Odamlarni tashish mashinalari (soni)"
               name="passengerVehicles"
-              required
+              rules={[
+                {
+                  required: true,
+                  message: "Odamlarni tashish mashinalari (soni)ni kiriting",
+                },
+              ]}
             >
               <Input
                 type="number"
@@ -217,7 +256,12 @@ const StationCalculator = () => {
             <Form.Item
               label="Mahalliy transport (soni)"
               name="localTransport"
-              required
+              rules={[
+                {
+                  required: true,
+                  message: "Mahalliy transport (sonini) kiriting",
+                },
+              ]}
             >
               <Input
                 type="number"
@@ -234,7 +278,12 @@ const StationCalculator = () => {
             <Form.Item
               label="Shahar atrofidagi transport (soni)"
               name="suburbanTransport"
-              required
+              rules={[
+                {
+                  required: true,
+                  message: "Shahar atrofidagi transport (sonini) kiriting",
+                },
+              ]}
             >
               <Input
                 type="number"
@@ -251,7 +300,12 @@ const StationCalculator = () => {
             <Form.Item
               label="Davlatlar aro tutashuv punktlari (soni)"
               name="borderConnection"
-              required
+              rules={[
+                {
+                  required: true,
+                  message: "Davlatlar aro tutashuv punktlari (sonini) kiriting",
+                },
+              ]}
             >
               <Input
                 type="number"
@@ -266,7 +320,7 @@ const StationCalculator = () => {
 
           <Col span={24}>
             <Form.Item>
-              <Button type="primary" onClick={calculate}>
+              <Button type="primary" htmlType="submit">
                 Hisoblash
               </Button>
             </Form.Item>
