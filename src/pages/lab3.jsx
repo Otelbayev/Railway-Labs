@@ -33,6 +33,8 @@ const letterValues = {
 const Lab3 = () => {
   const [result1, setResult1] = useState("");
   const [result2, setResult2] = useState("");
+  const [form1] = Form.useForm();
+  const [form2] = Form.useForm();
 
   const calculateMedium = (e) => {
     const input = e?.orta?.trim();
@@ -88,7 +90,18 @@ const Lab3 = () => {
 
   return (
     <Card title="Kontainer nazorat raqamini hisoblash">
-      <Form layout="vertical" onFinish={calculateMedium}>
+      {["12345678", "67893456", "23487609", "87324623"].map((v, index) => (
+        <Button
+          style={{
+            margin: "5px",
+          }}
+          onClick={() => form1.setFieldsValue({ orta: v })}
+          key={index}
+        >
+          {v}
+        </Button>
+      ))}
+      <Form layout="vertical" onFinish={calculateMedium} form={form1}>
         <Row gutter={[5, 5]}>
           <Col xs={24} md={20}>
             <Form.Item
@@ -121,10 +134,20 @@ const Lab3 = () => {
           </Col>
         </Row>
       </Form>
-
       {result1 && <b>{result1}</b>}
       <hr style={{ margin: "20px 0" }} />
-      <Form layout="vertical" onFinish={calculateLarge}>
+      {["CMAU765432", "MSCU123456", "CMAU400123"].map((v, index) => (
+        <Button
+          style={{
+            margin: "5px",
+          }}
+          onClick={() => form2.setFieldsValue({ katta: v })}
+          key={index}
+        >
+          {v}
+        </Button>
+      ))}
+      <Form layout="vertical" onFinish={calculateLarge} form={form2}>
         <Row gutter={[5, 5]}>
           <Col xs={24} md={20}>
             <Form.Item

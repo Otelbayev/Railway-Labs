@@ -28,36 +28,42 @@ const columns = [
     dataIndex: "kod",
     sorter: (a, b) => a.kod.localeCompare(b.kod),
     sortDirections: ["ascend", "descend", "ascend"],
+    key: "kod",
   },
   {
     title: "Ism",
     dataIndex: "ism",
     sorter: (a, b) => a.ism.localeCompare(b.ism),
     sortDirections: ["ascend", "descend", "ascend"],
+    key: "ism",
   },
   {
     title: "Xavfsizlik",
     dataIndex: "xavfsizlik",
     sorter: (a, b) => a.xavfsizlik.localeCompare(b.xavfsizlik),
     sortDirections: ["ascend", "descend", "ascend"],
+    key: "xavfsizlik",
   },
   {
     title: "Xavfli",
     dataIndex: "xavfli",
     sorter: (a, b) => a.xavfli.localeCompare(b.xavfli),
     sortDirections: ["ascend", "descend", "ascend"],
+    key: "xavfli",
   },
   {
     title: "Sinf",
     dataIndex: "sinf",
     sorter: (a, b) => a.sinf.localeCompare(b.sinf),
     sortDirections: ["ascend", "descend", "ascend"],
+    key: "sinf",
   },
   {
     title: "MVN",
     dataIndex: "mvn",
     sorter: (a, b) => a.mvn.localeCompare(b.mvn),
     sortDirections: ["ascend", "descend", "ascend"],
+    key: "mvn",
   },
 ];
 const Lab4 = () => {

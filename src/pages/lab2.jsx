@@ -1,176 +1,190 @@
-import { Button, Card, Col, Form, InputNumber, message, Row } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Row,
+} from "antd";
 import React, { useState } from "react";
-import { vagons } from "../mock/vagons";
+
+const VAGON_DATA_LIST = [
+  {
+    id: 1,
+    birinchiUstun: [2],
+    ikkinchiUstun: [0],
+    uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    oklarSoni: "4",
+    vagonOgirligi: "24.2 tonna",
+    vagonUzunligi: "15.35 m",
+  },
+  {
+    id: 2,
+    birinchiUstun: [2],
+    ikkinchiUstun: [1, 3],
+    uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    oklarSoni: "4",
+    vagonOgirligi: "23 tonna",
+    vagonUzunligi: "14.73 m",
+  },
+  {
+    id: 3,
+    birinchiUstun: [2],
+    ikkinchiUstun: [4, 5],
+    uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    oklarSoni: "4",
+    vagonOgirligi: "24 tonna",
+    vagonUzunligi: "14.73 m",
+  },
+  {
+    id: 4,
+    birinchiUstun: [2],
+    ikkinchiUstun: [6, 7],
+    uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    oklarSoni: "4",
+    vagonOgirligi: "26 tonna",
+    vagonUzunligi: "15.35 m",
+  },
+  {
+    id: 5,
+    birinchiUstun: [2],
+    ikkinchiUstun: [8],
+    uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    oklarSoni: "4",
+    vagonOgirligi: "27 tonna",
+    vagonUzunligi: "17.64 m",
+  },
+  {
+    id: 6,
+    birinchiUstun: [2],
+    ikkinchiUstun: [9],
+    uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    oklarSoni: "8",
+    vagonOgirligi: "29 tonna",
+    vagonUzunligi: "18.8 m",
+  },
+  {
+    id: 7,
+    birinchiUstun: [3],
+    ikkinchiUstun: [0],
+    uchinchiUstun: [0, 1, 2, 3, 4],
+    oklarSoni: "4",
+    vagonOgirligi: "25 tonna",
+    vagonUzunligi: "10 m",
+  },
+  {
+    id: 8,
+    birinchiUstun: [3],
+    ikkinchiUstun: [0],
+    uchinchiUstun: [5, 6, 7],
+    oklarSoni: "4",
+    vagonOgirligi: "23 tonna",
+    vagonUzunligi: "10.87 m",
+  },
+];
+
+const VAGON_TURI_LIST = [
+  { id: 0, type: "Yo'lovchi" },
+  { id: 1, type: "Lokomotiv" },
+  { id: 2, type: "Kritiy" },
+  { id: 3, type: "Spes" },
+  { id: 4, type: "Platforma" },
+  { id: 5, type: "Xususiy" },
+  { id: 6, type: "Pol Vagon" },
+  { id: 7, type: "Sisterna" },
+  { id: 8, type: "Izotermik" },
+  { id: 9, type: "Boshqa vagonlar" },
+];
+
+const arr = [
+  2349857, 2439875, 2459874, 2459823, 2323948, 2349857, 2435096, 2430559,
+];
 
 const Lab2 = () => {
-  const [form] = Form.useForm();
-  const [data, setData] = useState();
+  const [vagonKodi, setVagonKodi] = useState("");
+  const [model, setModel] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // Data for vagon models
-  const vagonDataList = [
-    {
-      id: 1,
-      birinchiUstun: [2],
-      ikkinchiUstun: [0],
-      uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      oklarSoni: "4",
-      vagonOgirligi: "24.2 tonna",
-      vagonUzunligi: "15.35 m",
-    },
-    {
-      id: 2,
-      birinchiUstun: [2],
-      ikkinchiUstun: [1, 3],
-      uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      oklarSoni: "4",
-      vagonOgirligi: "23 tonna",
-      vagonUzunligi: "14.73 m",
-    },
-    {
-      id: 3,
-      birinchiUstun: [2],
-      ikkinchiUstun: [4, 5],
-      uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      oklarSoni: "4",
-      vagonOgirligi: "24 tonna",
-      vagonUzunligi: "14.73 m",
-    },
-    {
-      id: 4,
-      birinchiUstun: [2],
-      ikkinchiUstun: [6, 7],
-      uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      oklarSoni: "4",
-      vagonOgirligi: "26 tonna",
-      vagonUzunligi: "15.35 m",
-    },
-    {
-      id: 5,
-      birinchiUstun: [2],
-      ikkinchiUstun: [8],
-      uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      oklarSoni: "4",
-      vagonOgirligi: "27 tonna",
-      vagonUzunligi: "17.64 m",
-    },
-    {
-      id: 6,
-      birinchiUstun: [2],
-      ikkinchiUstun: [9],
-      uchinchiUstun: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      oklarSoni: "8",
-      vagonOgirligi: "29 tonna",
-      vagonUzunligi: "18.8 m",
-    },
-    {
-      id: 7,
-      birinchiUstun: [3],
-      ikkinchiUstun: [0],
-      uchinchiUstun: [0, 1, 2, 3, 4],
-      oklarSoni: "4",
-      vagonOgirligi: "25 tonna",
-      vagonUzunligi: "10 m",
-    },
-    {
-      id: 8,
-      birinchiUstun: [3],
-      ikkinchiUstun: [0],
-      uchinchiUstun: [5, 6, 7],
-      oklarSoni: "4",
-      vagonOgirligi: "23 tonna",
-      vagonUzunligi: "10.87 m",
-    },
-  ];
-
-  // Data for vagon types
-  const dataVagonTuri = [
-    [0, "Yo'lovchi"],
-    [1, "Lokomotiv"],
-    [2, "Kritiy"],
-    [3, "Spes"],
-    [4, "Platforma"],
-    [5, "Xususiy"],
-    [6, "Pol Vagon"],
-    [7, "Sisterna"],
-    [8, "Izotermik"],
-    [9, "Boshqa vagonlar"],
-  ];
-
-  // Function to get the vagon based on a code
-  function getVagon(e) {
-    const code = e.number;
-    try {
-      let summCode = 0;
-
-      // Calculate the sum for the code
-      for (let i = 0; i < code.length; i++) {
-        let mul = i % 2 === 0 ? 2 : 1;
-        let a = parseInt(code[i]) * mul;
-        if (a >= 10) {
-          const a1 = Math.floor(a / 10);
-          a = a1 + (a % 10);
-        }
-        summCode += a;
+  const calculateControlNumber = (code) => {
+    let summCode = 0;
+    for (let i = 0; i < code.length; i++) {
+      const mul = i % 2 === 0 ? 2 : 1;
+      let a = parseInt(code[i], 10) * mul;
+      if (a >= 10) {
+        a = Math.floor(a / 10) + (a % 10);
       }
-
-      const res = 10 - (summCode % 10);
-      const fullCode = code + res.toString();
-
-      const birinchiUstun = parseInt(fullCode[0]);
-      const ikkinchiUstun = parseInt(fullCode[1]);
-      const uchinchiUstun = parseInt(fullCode[2]);
-      const otishYoli = parseInt(fullCode[6]);
-
-      // Find the vagon based on the provided data
-      const vagon = vagonDataList.find(
-        (vagon) =>
-          vagon.birinchiUstun.includes(birinchiUstun) &&
-          vagon.ikkinchiUstun.includes(ikkinchiUstun) &&
-          vagon.uchinchiUstun.includes(uchinchiUstun)
-      );
-
-      console.log(vagon);
-
-      if (vagon) {
-        // Set vagon's otishYoli status
-        if (otishYoli === 0) {
-          vagon.vagonOtuvchiYolBorligi = "O'tish yo'li yo'q";
-        } else if (otishYoli >= 1 && otishYoli <= 9) {
-          vagon.vagonOtuvchiYolBorligi = "O'tish yo'li bor";
-        }
-
-        // Set vagon type
-        vagon.vagonTuri = dataVagonTuri.find(
-          (item) => item[0] === birinchiUstun
-        )?.[1];
-
-        // Set vagon code and nazorat raqami
-        vagon.vagonKodi = fullCode;
-        vagon.nazoratRaqami = res;
-
-        console.log(vagon);
-        console.log(vagonDataList);
-        console.log(fullCode);
-      }
-    } catch (error) {
-      return null;
+      summCode += a;
     }
-  }
+    return 10 - (summCode % 10);
+  };
 
-  const onFinish = (e) => {};
+  const getVagon = (c) => {
+    const code = c.toString();
+    const controlNumber = calculateControlNumber(code);
+    const fullCode = code + controlNumber;
+
+    const birinchiUstun = parseInt(fullCode[0], 10);
+    const ikkinchiUstun = parseInt(fullCode[1], 10);
+    const uchinchiUstun = parseInt(fullCode[2], 10);
+    const otishYoli = parseInt(fullCode[6], 10);
+
+    const result = VAGON_DATA_LIST.find(
+      (vagon) =>
+        vagon.birinchiUstun.includes(birinchiUstun) &&
+        vagon.ikkinchiUstun.includes(ikkinchiUstun) &&
+        vagon.uchinchiUstun.includes(uchinchiUstun)
+    );
+
+    if (result) {
+      result.vagonOtuvchiYolBorligi =
+        otishYoli === 0 ? "O'tish yo'li yo'q" : "O'tish yo'li bor";
+      result.vagonTuri =
+        VAGON_TURI_LIST.find((item) => item.id === birinchiUstun)?.type ||
+        "Unknown";
+      result.vagonKodi = fullCode;
+      result.nazoratRaqami = controlNumber;
+    }
+
+    return result;
+  };
+
+  const onFinish = () => {
+    const vagonModel = getVagon(vagonKodi);
+    if (vagonModel) {
+      setModel(vagonModel);
+      setErrorMessage("");
+    } else {
+      setModel(null);
+      setErrorMessage("Vagon ma'lumoti topilmadi");
+    }
+  };
+
+  console.log(vagonKodi);
 
   return (
     <Card title="Vagon nazorat raqamini aniqlash">
-      <Form layout="vertical" onFinish={getVagon} form={form}>
+      {arr.map((e, index) => (
+        <Button
+          style={{
+            margin: "5px",
+          }}
+          key={index}
+          onClick={() => setVagonKodi(e)}
+        >
+          {e}
+        </Button>
+      ))}
+      <Form layout="vertical" onFinish={onFinish}>
         <Row gutter={[5, 5]}>
           <Col xs={24} md={20}>
-            <Form.Item
-              name="number"
-              rules={[{ required: true, message: "Vagon raqami" }]}
-            >
+            <Form.Item rules={[{ required: true, message: "Vagon raqami" }]}>
               <InputNumber
                 placeholder="Vagon raqami"
                 style={{ width: "100%" }}
+                value={vagonKodi}
+                onChange={(e) => setVagonKodi(e)}
                 maxLength={7}
                 minLength={7}
               />
@@ -189,23 +203,30 @@ const Lab2 = () => {
           </Col>
         </Row>
       </Form>
-
-      {data && (
-        <div className="mt-5">
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {model && (
+        <div style={{ fontSize: "14px" }}>
           <p>
-            <b>Vagon kodi:</b> {data?.vagonKodi}
+            <b>Vagon Kodi:</b> {model.vagonKodi}
           </p>
           <p>
-            <b>Vagon turi:</b> {data?.vagonTuri}
+            <b>Nazorat Raqami:</b> {model.nazoratRaqami}
           </p>
           <p>
-            <b>Vagon uzunligi:</b> {data?.vagonUzunligi}
+            <b>Vagon Turi:</b> {model.vagonTuri}
           </p>
           <p>
-            <b>Vagon o'g'irligi:</b> {data?.vagonOgirligi}
+            <b>Vagon Uzunligi: </b>
+            {model.vagonUzunligi}
           </p>
           <p>
-            <b>Vagon otuvchi yol borligi:</b> {data?.vagonOtuvchiYolBorligi}
+            <b>Vagon Og'irligi:</b> {model.vagonOgirligi}
+          </p>
+          <p>
+            <b>Oqlar Soni:</b> {model.oklarSoni}
+          </p>
+          <p>
+            <b>O'tuvchi Yo'l:</b> {model.vagonOtuvchiYolBorligi}
           </p>
         </div>
       )}
